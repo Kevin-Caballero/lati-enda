@@ -1,0 +1,12 @@
+.categories-wrapper {
+  height: 90%;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+body {
+  height: 100vh;
+  overflow-y: hidden;
+}

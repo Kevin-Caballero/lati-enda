@@ -1,0 +1,23 @@
+.product-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1rem;
+  border: 2px solid #242424;
+  padding: 1rem;
+  width: fit-content;
+  max-width: 700px;
+  box-shadow: 1px 7px 19px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 1px 7px 19px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 1px 7px 19px 0px rgba(0, 0, 0, 0.75);
+}
+
+.product-data {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-wrapper img {
+  object-fit: cover;
+  border-radius: 1rem;
+}
