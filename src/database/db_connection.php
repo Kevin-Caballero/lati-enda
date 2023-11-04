@@ -1,6 +1,6 @@
 <?php
 
-class DConnection {
+class DbConnection {
     private static $instance = null;
     private $host = "localhost";
     private $username = "root";
@@ -25,13 +25,39 @@ class DConnection {
 
     public static function getInstance($host = "localhost", $username = "root", $password = "", $database = "ce1pra") {
         if (self::$instance == null) {
-            self::$instance = new DConnection($host, $username, $password, $database);
+            self::$instance = new DbConnection($host, $username, $password, $database);
         }
         return self::$instance;
     }
 
     public function query($sql) {
         return $this->mysqli->query($sql);
+    }
+
+    public function insert($table, $data) {
+        $columns = implode(", ", array_keys($data));
+        $values = "'" . implode("', '", array_values($data)) . "'";
+        $sql = "INSERT INTO $table ($columns) VALUES ($values)";
+        if ($this->mysqli->query($sql)) {
+            return $this->mysqli->insert_id;
+        } else {
+            return false;
+        }
+    }
+
+    public function update($table, $data, $condition) {
+        $set = [];
+        foreach ($data as $column => $value) {
+            $set[] = "$column = '$value'";
+        }
+        $set = implode(", ", $set);
+        $sql = "UPDATE $table SET $set WHERE $condition";
+        return $this->query($sql);
+    }
+
+    public function delete($table, $condition) {
+        $sql = "DELETE FROM $table WHERE $condition";
+        return $this->query($sql);
     }
 
     public function close() {

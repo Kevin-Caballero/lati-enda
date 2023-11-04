@@ -8,7 +8,7 @@ if (isset($_SESSION['cart'])) {
     session_start();
 }
 
-$db = DConnection::getInstance();
+$db = DbConnection::getInstance();
 header("Location: src/pages/categories/categories.php");
 exit();
 

@@ -7,9 +7,8 @@ class Customer{
   protected $email;
   protected $password;
 
-  public function __construct($id, $name, $address, $email, $password)
+  public function __construct($name, $address, $email, $password)
   {
-    $this->id = $id;
     $this->name = $name;
     $this->address = $address;
     $this->email = $email;

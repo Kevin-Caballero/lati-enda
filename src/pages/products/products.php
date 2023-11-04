@@ -2,7 +2,7 @@
 include('../../../src/database/db_connection.php');
 include('../../../src/models/product.php');
 
-  $db = DConnection::getInstance();
+  $db = DbConnection::getInstance();
 
   session_start();
 

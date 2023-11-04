@@ -2,7 +2,7 @@
 include('../../../src/database/db_connection.php');
 include('../../../src/models/category.php');
 
-$db = DConnection::getInstance();
+$db = DbConnection::getInstance();
 $categories = getCategories();
 session_start();
 

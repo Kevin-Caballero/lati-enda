@@ -2,7 +2,7 @@
 include('../../../src/database/db_connection.php');
 include('../../../src/models/product.php');
 
-$db = DConnection::getInstance();
+$db = DbConnection::getInstance();
 $totalCarro = 0;
 
 session_start();
@@ -13,6 +13,20 @@ function totalQuantity($idproduct){
 
 function totalAmmount($quantity, $price){
   return $quantity * $price;
+}
+
+if(isset($_POST["checkout"])){
+  if (isset($_SESSION["cart"])) {
+    foreach ($_SESSION["cart"] as $product) {
+      $totalCarro += totalAmmount(totalQuantity($product["product"]->getid()), $product["product"]->getprice());
+    }
+  }
+  
+  $_SESSION["cart"]["total"] = $totalCarro;
+  echo $totalCarro;
+  $base_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
+  header("Location: " . $base_url . "/ce1/src/pages/checkout/checkout.php");
+  exit();
 }
 
 if (isset($_POST['deleteProduct'])) {
@@ -57,7 +71,7 @@ if(isset($_POST['decrease'])){
       </div>
       <div class="card-body">
           <table class="table">
-              <thead class="bg-primary text-white">
+              <thead class="bg-secondary text-white">
                   <th class="text-center">Nombre</th>
                   <th class="text-center">PVP</th>
                   <th class="text-center">Cantidad</th>
@@ -99,12 +113,16 @@ if(isset($_POST['decrease'])){
           </table>
       </div>
       <div class="card-footer bg-dark text-white d-flex justify-content-between pr-5 pl-5">
-        <a href="/ce1/src/pages/checkout/checkout.php" class="btn btn-success d-flex align-items-center">Tramitar pedido</a>
-        <h2>Total: <?php if (isset($totalCarro)) {
-                  echo $totalCarro."€";
-              } else{
-                  echo "0";
-              }?></h2>
+        
+        <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
+          <button type="submit" name="checkout" class="btn btn-success d-flex align-items-center">Tramitar pedido</button>
+        </form>
+          <h2>Total: <?php if (isset($totalCarro)) {
+                    echo $totalCarro."€";
+                } else{
+                    echo "0";
+                }?>
+          </h2>
       </div>
     </div>
   </div>

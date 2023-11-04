@@ -4,7 +4,7 @@
 
   session_start();
 
-  $db = DConnection::getInstance();
+  $db = DbConnection::getInstance();
 
   if (isset($_GET['id'])) {
     $productId = htmlspecialchars($_GET['id']);
@@ -74,7 +74,7 @@
   <?php include('../../../src/common/header/header.php') ?>
   <div class="container" style="display: flex; justify-content: center;">
     <div class="product-wrapper">
-      <img height="350px" class="mr-5" src="<?php echo $product->getimage_url()?>" alt="">
+      <img height="350px" class="mr-5 product-image" src="<?php echo $product->getimage_url()?>" alt="">
       <div class="product-data">
         <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
           <h3 class="mb-5"><?php echo $product->getname()?></h3>
