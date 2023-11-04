@@ -5,44 +5,18 @@ include('../../../src/models/product.php');
 $db = DbConnection::getInstance();
 session_start();
 
-function persistOrder($email, $address, $name = "guest", $pass = "guestpass") {
-  global $db;
-  $customer = array(
-    "name" => $name == "guest" ? "guest".date('YmdHis') : $name, 
-    "address" => $address, 
-    "email" => $email, 
+function setCustomer($email, $address, $name = "guest", $pass = ""){
+  $_SESSION["cart"]["customer"] = array(
+    "name" => $name == "guest" ? $name.date('YmdHis') : $name,
+    "address" => $address,
+    "email" => $email,
     "password" => $pass
   );
-  $customerInsertedId = $db->insert("customers", $customer);
-  
-  $order = array(
-    "customer_id" => $customerInsertedId,
-    "date" => date('Y-m-d'),
-    "total_amount" => isset($_SESSION["cart"]["total"]) ? $_SESSION["cart"]["total"] : 0
-  );
-  $orderInsertedId = $db->insert("orders", $order);
+}
 
-  if(is_array($_SESSION["cart"])){
-    foreach ($_SESSION["cart"] as $productId => $cartItem) {
-      $productData = $_SESSION["cart"][$productId]["product"];
-      //$productData = $cartItem["product"];
-  
-      if ($productData instanceof Product) {
-          $product_id = $productData->getid();
-          $quantity = $cartItem["quantity"];
-          $price = $productData->getprice();
-  
-          $detail = array(
-              "order_id" => $orderInsertedId,
-              "product_id" => $product_id,
-              "quantity" => $quantity,
-              "price" => $price
-          );
-  
-          $db->insert("order_details", $detail);
-      }
-    }
-  }
+function moveToSummary(){
+  $base_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
+  header("Location: " . $base_url . "/ce1/src/pages/summary/summary.php");
 }
 
 
@@ -50,8 +24,8 @@ if (isset($_POST['asGuest'])) {
   $guestEmail = $_POST['guestEmail'];
   $guestAddress = $_POST['guestAddress'];
 
-  print_r([$guestAddress, $guestEmail]) ;
-  persistOrder($guestEmail, $guestAddress);
+  setCustomer($guestEmail, $guestAddress);
+  moveToSummary();
 }
 
 if (isset($_POST['asUser'])) {
@@ -60,6 +34,8 @@ if (isset($_POST['asUser'])) {
   $userEmail = $_POST['userEmail'];
   $userAddress = $_POST['userAddress'];
 
+  setCustomer($userEmail, $userAddress, $userName, $userPassword);
+  moveToSummary();
 }
 ?>
 <!DOCTYPE html>
@@ -128,7 +104,7 @@ if (isset($_POST['asUser'])) {
             </div>
           </div>
           <div class="card-footer bg-dark">
-            <button type="submit" class="btn btn-success">Tramitar</button>
+            <button type="submit" class="btn btn-success" name="asUser">Tramitar</button>
           </div>
         </form>
       </div>

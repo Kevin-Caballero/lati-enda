@@ -1,3 +1,17 @@
+<?php 
+  function getCartCount(){
+    $count = 0;
+    if(isset($_SESSION["cart"]) && count($_SESSION["cart"]) > 0){
+      foreach ($_SESSION["cart"] as $cartItemId => $cartItem) {
+        if ($cartItemId !== "total" && $cartItemId !== "customer") {
+          $count++;
+        }
+      }
+      echo "(".$count.")";
+    }
+  }
+?>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
   <a class="navbar-brand" href="/ce1">
     <img src="../../../assets/logo1.png" alt="Logo" height="60"> <!-- Agrega la ruta de tu logo y ajusta la altura -->
@@ -25,7 +39,7 @@
     <li class="nav-item">
       <a class="nav-link" href="/ce1/src/pages/cart/cart.php">
         <i class="fas fa-shopping-cart cart" style="font-size:2rem; color:white"></i>
-        <?php if(isset($_SESSION["cart"]) && count($_SESSION["cart"]) > 0) echo "(".count($_SESSION["cart"]).")"?>
+        <?php getCartCount() ?>
       </a>
     </li>
   </ul>

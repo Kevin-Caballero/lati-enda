@@ -67,7 +67,7 @@ if(isset($_POST['decrease'])){
   <div class="container categories-wrapper">
     <div class="card">
       <div class="card-header bg-dark text-white text-center">
-          <h1>CESTA</h1>
+          <h2>CESTA</h2>
       </div>
       <div class="card-body">
           <table class="table">
@@ -79,7 +79,9 @@ if(isset($_POST['decrease'])){
                   <th class="text-center"></th>
               </thead>
               <tbody>
-              <?php if (isset($_SESSION["cart"])) foreach ($_SESSION["cart"] as $product) {?>
+              <?php if (isset($_SESSION["cart"])) foreach ($_SESSION["cart"] as $product) {
+                      if (isset($product["product"]) && $product["product"] instanceof Product) {
+              ?>
                   <tr>
                     <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
                       <td><?php echo $product["product"]->getname() ?></td>
@@ -108,7 +110,8 @@ if(isset($_POST['decrease'])){
                       <?php $totalCarro += totalAmmount(totalQuantity($product["product"]->getid()), $product["product"]->getprice()) ?>
                     </form>
                   </tr>
-                  <?php }?>
+                  <?php }
+                }?>
               </tbody>
           </table>
       </div>
