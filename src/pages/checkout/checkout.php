@@ -61,7 +61,7 @@ if (isset($_POST['asUser'])) {
         <div class="card-header bg-dark text-white">
           Como invitado
         </div>
-        <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
+        <form style="margin-block-end: 0;" action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
           <div class="card-body">
             <div class="form-group">
               <label>Email</label>
