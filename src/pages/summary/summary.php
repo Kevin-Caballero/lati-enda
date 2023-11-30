@@ -35,6 +35,7 @@ function persistOrder() {
             );
   
             $db->insert("order_details", $detail);
+            $db->update("products", array("stock" => $productData->getstock() - $quantity), "id = " . $product_id);
         }
       }
     }

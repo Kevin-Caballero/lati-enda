@@ -1,4 +1,5 @@
 .product-wrapper {
+  height: fit-content;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -22,6 +23,6 @@
   border-radius: 1rem;
 }
 
-.product-image{
+.product-image {
   max-width: 350px;
 }

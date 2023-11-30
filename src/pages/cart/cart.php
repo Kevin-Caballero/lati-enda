@@ -21,7 +21,7 @@ if(isset($_POST["checkout"])){
       $totalCarro += totalAmmount(totalQuantity($product["product"]->getid()), $product["product"]->getprice());
     }
   }
-  
+
   $_SESSION["cart"]["total"] = $totalCarro;
   echo $totalCarro;
   $base_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";

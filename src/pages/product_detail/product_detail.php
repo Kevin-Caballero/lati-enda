@@ -43,7 +43,11 @@
     $quantity = $_POST["quantity"];
 
     if ($quantity == 0) {
-      unset($_SESSION['cart'][$id]);
+      if(isset($_SESSION['cart'][$id])) {
+        unset($_SESSION['cart'][$id]);
+      }else{
+        $atLeastOne = true;
+      }
     } else {
       $_SESSION['cart'][$id] = array(
         'product' => $product,
@@ -72,7 +76,7 @@
 </head>
 <body>
   <?php include('../../../src/common/header/header.php') ?>
-  <div class="container" style="display: flex; justify-content: center;">
+  <div class="container" style="display: flex; justify-content: center; align-items: center; height: 80vh">
     <div class="product-wrapper">
       <img height="350px" class="mr-5 product-image" src="<?php echo $product->getimage_url()?>" alt="">
       <div class="product-data">
@@ -97,6 +101,15 @@
   <?php if (isset($added) && $added === true) {?>
     <div style="position: absolute; bottom: 0; right: 0" class="alert alert-success" role="alert">
       <?php echo $quantity?> producto<?php if($quantity > 1) echo 's'?> añadido<?php if($quantity > 1) echo 's'?> al carrito: <strong><?php echo $product->getname()?></strong>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  <?php }?>
+
+  <?php if (isset($atLeastOne) && $atLeastOne === true) {?>
+    <div style="position: absolute; bottom: 0; right: 0" class="alert alert-danger" role="alert">
+      Debes añadir al menos un producto al carrito: <strong><?php echo $product->getname()?></strong>
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
